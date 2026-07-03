@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Raindrop Design Collection</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#ffffff;--surf:#f7f7f5;--card:#ffffff;
+  --bd:#e8e8e4;--bdh:#c0c0b8;
+  --tx:#1a1a18;--muted:#888880;--dim:#555550;
+  --ac:#2563eb;--abg:#eff6ff;--abd:#bfdbfe;
+  --tag-bg:#f1f5f9;--tag-tx:#475569;--tag-bd:#cbd5e1;
+  --tag-on:#2563eb;--r:6px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);font-size:14px}
+
+/* ── welcome ── */
+#welcome{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:2rem;z-index:50;transition:opacity .3s}
+#welcome.fade{opacity:0;pointer-events:none}
+.wcard{max-width:500px;width:100%;display:flex;flex-direction:column;gap:1.5rem}
+.whead{display:flex;flex-direction:column;gap:6px}
+.whead h1{font-size:26px;font-weight:600;letter-spacing:-.5px}
+.whead h1 em{color:var(--ac);font-style:normal}
+.whead p{font-size:14px;color:var(--dim);line-height:1.7}
+.wstats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.wstat{background:var(--surf);border:1px solid var(--bd);border-radius:var(--r);padding:.9rem 1rem}
+.wstat-n{font-size:22px;font-weight:600;color:var(--tx);min-height:30px;display:flex;align-items:center}
+.wstat-l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+.wcolls{display:flex;flex-direction:column;gap:4px}
+.wcoll{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;border-radius:var(--r);border:1px solid var(--bd);cursor:pointer;transition:all .12s;background:var(--surf)}
+.wcoll:hover{border-color:var(--ac);background:var(--abg)}
+.wcoll span{display:flex;align-items:center;gap:7px;font-size:13px}
+.wdot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.wct{font-size:11px;color:var(--muted)}
+.wfoot{display:flex;align-items:center;justify-content:space-between}
+.wbtn{padding:9px 20px;border-radius:var(--r);border:none;background:var(--ac);color:#fff;font-size:14px;font-weight:500;cursor:pointer;transition:background .15s}
+.wbtn:hover{background:#1d4ed8}
+.wbtn:disabled{opacity:.4;cursor:default}
+.wstatus{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.spin{width:13px;height:13px;border:2px solid var(--bd);border-top-color:var(--ac);border-radius:50%;animation:rot .8s linear infinite;display:inline-block;flex-shrink:0}
+@keyframes rot{to{transform:rotate(360deg)}}
+
+/* ── app shell ── */
+.shell{display:grid;grid-template-rows:52px 1fr;height:100vh;overflow:hidden}
+.body{display:grid;grid-template-columns:200px 1fr;overflow:hidden}
+
+/* topbar */
+.top{display:flex;align-items:center;gap:12px;padding:0 1.25rem;border-bottom:1px solid var(--bd);background:var(--bg)}
+.logo{font-size:15px;font-weight:600;color:var(--tx);cursor:pointer;background:none;border:none;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:6px}
+.logo em{color:var(--ac);font-style:normal}
+.sw{flex:1;max-width:460px;position:relative}
+.sw svg{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none}
+#qi{width:100%;background:var(--surf);border:1px solid var(--bd);border-radius:var(--r);padding:0 10px 0 30px;height:33px;font-size:13px;color:var(--tx);outline:none;transition:border-color .15s;font-family:'Inter',sans-serif}
+#qi:focus{border-color:var(--ac);background:var(--bg)}
+#qi::placeholder{color:var(--muted)}
+.top-right{margin-left:auto;font-size:11px;color:var(--muted);white-space:nowrap}
+
+/* sidebar */
+.side{border-right:1px solid var(--bd);background:var(--surf);overflow-y:auto;padding:.5rem 0}
+.sh{padding:.5rem 1rem .2rem;font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-top:.3rem}
+.ni{display:flex;align-items:center;gap:7px;padding:5px 1rem;cursor:pointer;font-size:13px;color:var(--dim);border-left:2px solid transparent;transition:all .1s;user-select:none}
+.ni:hover{background:var(--bg);color:var(--tx)}
+.ni.on{background:var(--abg);color:var(--ac);border-left-color:var(--ac)}
+.ni.child{padding-left:1.9rem}
+.ndot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.nl{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nc{font-size:10px;padding:1px 5px;background:var(--bg);border:1px solid var(--bd);border-radius:4px;color:var(--muted);flex-shrink:0}
+.cg{display:none}.cg.open{display:block}
+.chev{flex-shrink:0;color:var(--muted);transition:transform .15s;cursor:pointer;padding:2px;display:inline-flex;align-items:center}
+.chev.open{transform:rotate(90deg)}
+
+/* main */
+.main{display:flex;flex-direction:column;overflow:hidden}
+
+/* filter bar */
+.fbar{display:flex;align-items:center;gap:5px;padding:.35rem .9rem;border-bottom:1px solid var(--bd);min-height:34px;flex-shrink:0}
+.fbar.hidden{display:none}
+.chip{display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:2px 8px;border-radius:20px;border:1px solid var(--abd);background:var(--abg);color:var(--ac)}
+.chip .x{cursor:pointer;opacity:.5;margin-left:2px;font-size:13px;line-height:1}
+.chip .x:hover{opacity:1}
+.clr{font-size:11px;padding:2px 8px;border-radius:20px;border:1px solid var(--bd);background:transparent;color:var(--muted);cursor:pointer;font-family:'Inter',sans-serif}
+.clr:hover{color:var(--tx);border-color:var(--bdh)}
+
+/* sort */
+.srow{display:flex;align-items:center;gap:4px;padding:.35rem .9rem;border-bottom:1px solid var(--bd);flex-shrink:0}
+.slbl{font-size:11px;color:var(--muted);margin-right:2px}
+.sbtn{font-size:11px;padding:2px 9px;border-radius:20px;border:1px solid var(--bd);background:transparent;color:var(--dim);cursor:pointer;font-family:'Inter',sans-serif;transition:all .1s}
+.sbtn:hover{border-color:var(--ac);color:var(--ac)}
+.sbtn.on{background:var(--ac);border-color:var(--ac);color:#fff}
+
+/* tag strip */
+.tags{display:flex;gap:4px;padding:.4rem .9rem;border-bottom:1px solid var(--bd);flex-wrap:wrap;align-items:center;max-height:68px;overflow:hidden;flex-shrink:0}
+.tag{font-size:11px;padding:2px 8px;border-radius:20px;cursor:pointer;border:1px solid var(--tag-bd);color:var(--tag-tx);background:var(--tag-bg);transition:all .1s;white-space:nowrap;font-family:'Inter',sans-serif}
+.tag:hover{border-color:var(--ac);color:var(--ac);background:var(--abg)}
+.tag.on{background:var(--tag-on);border-color:var(--tag-on);color:#fff}
+.tgempty{font-size:11px;color:var(--muted)}
+
+/* list */
+.area{overflow-y:auto;flex:1}
+.list{display:flex;flex-direction:column}
+.item{display:flex;gap:12px;padding:.9rem 1rem;border-bottom:1px solid var(--bd);align-items:flex-start;transition:background .1s}
+.item:hover{background:var(--surf)}
+.ithumb{width:72px;height:50px;border-radius:5px;background:var(--surf);flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:18px;border:1px solid var(--bd)}
+.ithumb img{width:100%;height:100%;object-fit:cover}
+.ibody{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.ititle{font-size:14px;font-weight:500;line-height:1.4;color:var(--tx);text-decoration:none;display:block}
+.ititle:hover{color:var(--ac)}
+.imeta{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.isep{opacity:.4}
+.itags{display:flex;flex-wrap:wrap;gap:3px;margin-top:3px}
+.itag{font-size:10px;padding:2px 6px;border-radius:20px;background:var(--tag-bg);color:var(--tag-tx);border:1px solid var(--tag-bd);cursor:pointer;transition:all .1s;white-space:nowrap}
+.itag:hover{background:var(--abg);color:var(--ac);border-color:var(--abd)}
+.itag.on{background:var(--tag-on);color:#fff;border-color:var(--tag-on)}
+.iact{flex-shrink:0;align-self:center}
+.cbtn{font-size:11px;padding:4px 10px;border-radius:var(--r);border:1px solid var(--bd);background:var(--bg);color:var(--dim);cursor:pointer;font-family:'Inter',sans-serif;transition:all .1s}
+.cbtn:hover{border-color:var(--ac);color:var(--ac)}
+
+/* statusbar */
+.sb{padding:0 .9rem;height:30px;font-size:11px;color:var(--muted);border-top:1px solid var(--bd);display:flex;align-items:center;flex-shrink:0}
+
+/* pagination */
+.pag{display:none;align-items:center;gap:4px;padding:.45rem .9rem;border-top:1px solid var(--bd);flex-wrap:wrap;flex-shrink:0}
+.pb{font-size:12px;padding:3px 9px;border-radius:var(--r);border:1px solid var(--bd);background:var(--bg);color:var(--dim);cursor:pointer;font-family:'Inter',sans-serif;transition:all .1s}
+.pb:hover{border-color:var(--ac);color:var(--ac)}
+.pb.on{background:var(--ac);border-color:var(--ac);color:#fff}
+.pb:disabled{opacity:.3;cursor:default}
+.pi{font-size:11px;color:var(--muted);margin-left:auto}
+
+/* states */
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem;color:var(--muted);gap:8px;text-align:center;font-size:13px}
+.ld{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem;gap:10px;color:var(--muted)}
+.bigspin{width:26px;height:26px;border:2px solid var(--bd);border-top-color:var(--ac);border-radius:50%;animation:rot .8s linear infinite}
+
+/* not-public banner */
+.banner{background:#fef3c7;border-bottom:1px solid #fde68a;padding:.6rem 1rem;font-size:12px;color:#92400e;display:none;flex-shrink:0;line-height:1.5}
+
+/* toast */
+.toast{position:fixed;bottom:1.2rem;right:1.2rem;background:var(--tx);color:#fff;font-size:12px;padding:7px 14px;border-radius:var(--r);opacity:0;transform:translateY(6px);transition:all .2s;pointer-events:none;z-index:99}
+.toast.show{opacity:1;transform:translateY(0)}
+
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px}
+</style>
+</head>
+<body>
+
+<!-- welcome -->
+<div id="welcome">
+  <div class="wcard">
+    <div class="whead">
+      <h1>Raindrop <em>Design</em> Collection</h1>
+      <p>A curated collection of design resources, inspiration, and tools — publicly shared by the Raindrop.io team.</p>
+    </div>
+    <div class="wstats" id="wstats">
+      <div class="wstat"><div class="wstat-n"><span class="spin"></span></div><div class="wstat-l">Bookmarks</div></div>
+      <div class="wstat"><div class="wstat-n"><span class="spin"></span></div><div class="wstat-l">Collections</div></div>
+      <div class="wstat"><div class="wstat-n"><span class="spin"></span></div><div class="wstat-l">Tags</div></div>
+    </div>
+    <div class="wcolls" id="wcolls"></div>
+    <div class="wfoot">
+      <button class="wbtn" id="wbtn" onclick="enterApp()" disabled>Browse the archive →</button>
+      <div class="wstatus" id="wstatus"><span class="spin"></span> Loading…</div>
+    </div>
+  </div>
+</div>
+
+<!-- app -->
+<div class="shell" id="app" style="visibility:hidden">
+  <header class="top">
+    <button class="logo" onclick="goHome()">Raindrop <em>Design</em></button>
+    <div class="sw">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input id="qi" type="text" placeholder="Search titles, tags, domains…" autocomplete="off"/>
+    </div>
+    <div class="top-right" id="badge">Design Collection</div>
+  </header>
+
+  <div class="body">
+    <nav class="side">
+      <div class="sh">Collections</div>
+      <div class="ni on" id="n-root" onclick="setColl(71900982,'All bookmarks','n-root')">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <span class="nl">All bookmarks</span>
+        <span class="nc" id="cnt-71900982"></span>
+      </div>
+      <div id="coll-tree"></div>
+      <div class="sh" style="margin-top:8px">Sort</div>
+      <div class="ni on" id="s-new" onclick="setSort('-created','s-new')">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span class="nl">Newest first</span>
+      </div>
+      <div class="ni" id="s-old" onclick="setSort('created','s-old')">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 8 14"/></svg>
+        <span class="nl">Oldest first</span>
+      </div>
+      <div class="ni" id="s-az" onclick="setSort('title','s-az')">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 6H4m7 6H4m7 6H4M20 12h-5m5-6h-5m5 12h-5"/></svg>
+        <span class="nl">A → Z</span>
+      </div>
+    </nav>
+
+    <div class="main">
+      <div class="banner" id="banner">
+        ⚠️ This collection is not yet public. The archive owner needs to enable public access in Raindrop settings. Results will appear automatically once that's done.
+      </div>
+      <div class="fbar hidden" id="fbar"></div>
+      <div class="tags" id="tagstrip"><span class="tgempty">Loading tags…</span></div>
+      <div class="area" id="area"><div class="list"><div class="ld"><div class="bigspin"></div><div>Loading…</div></div></div></div>
+      <div class="pag" id="pag"></div>
+      <div class="sb" id="sb">Loading…</div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const TOKEN = 'c3326b01-67d7-4257-a345-0bb8f694cf86';
+const API   = 'https://api.raindrop.io/rest/v1';
+const ROOT  = 66;
+const PER   = 30;
+
+let S = { coll:ROOT, label:'All bookmarks', navId:'n-root', sort:'-created', sortId:'s-new', page:0, total:1, count:0, search:'', tag:'' };
+let collMap = {};
+let allTags = [];
+let bootData = null;
+
+// ── API ───────────────────────────────────────────────
+async function rd(path, params={}) {
+  const qs = new URLSearchParams({...params, _: Date.now()}).toString();
+  const res = await fetch(`${API}${path}?${qs}`, {
+    headers: { Authorization: `Bearer ${TOKEN}` },
+    cache: 'no-store'
+  });
+  if (!res.ok) throw new Error('HTTP ' + res.status);
+  return res.json();
+}
+
+// ── Boot ──────────────────────────────────────────────
+async function boot() {
+  try {
+    const [root, children, tags] = await Promise.all([
+      rd('/collections'),
+      rd('/collections/childrens'),
+      rd('/tags/' + ROOT)
+    ]);
+    bootData = { root, children };
+    allTags = (tags._id || []).sort((a,b) => b.count - a.count);
+
+    const allColls = [...root.items, ...children.items];
+    const rootColl = allColls.find(c => c._id === ROOT);
+    const topLevel = allColls.filter(c => c.parent && c.parent.$id === ROOT);
+
+    // Welcome stats
+    document.getElementById('wstats').innerHTML =
+      `<div class="wstat"><div class="wstat-n">${(rootColl?.count||0).toLocaleString()}</div><div class="wstat-l">Bookmarks</div></div>`+
+      `<div class="wstat"><div class="wstat-n">${topLevel.length}</div><div class="wstat-l">Collections</div></div>`+
+      `<div class="wstat"><div class="wstat-n">${allTags.length.toLocaleString()}</div><div class="wstat-l">Tags</div></div>`;
+
+    // Welcome collection list
+    document.getElementById('wcolls').innerHTML = topLevel
+      .sort((a,b) => (a.sort||0)-(b.sort||0))
+      .map(c => {
+        const dot = c.color ? `<span class="wdot" style="background:${c.color}"></span>` : '';
+        return `<div class="wcoll" onclick="enterWithColl(${c._id},'${esc(c.title)}')">
+          <span>${dot}${esc(c.title)}</span>
+          <span class="wct">${(c.count||0).toLocaleString()}</span>
+        </div>`;
+      }).join('');
+
+    document.getElementById('badge').textContent = (rootColl?.count||0).toLocaleString() + ' bookmarks';
+    document.getElementById('wstatus').style.display = 'none';
+    document.getElementById('wbtn').disabled = false;
+  } catch(e) {
+    document.getElementById('wstatus').innerHTML = `<span style="color:#dc2626">${esc(e.message)}</span>`;
+  }
+}
+
+// ── Enter ─────────────────────────────────────────────
+function enterApp() {
+  document.getElementById('welcome').classList.add('fade');
+  setTimeout(() => document.getElementById('welcome').style.display='none', 350);
+  document.getElementById('app').style.visibility = 'visible';
+  if (bootData) buildTree([...bootData.root.items, ...bootData.children.items]);
+  renderTagStrip();
+  fetchPage();
+}
+
+function enterWithColl(id, label) {
+  S.coll = id; S.label = label;
+  enterApp();
+}
+
+function goHome() {
+  document.getElementById('welcome').style.display = 'flex';
+  document.getElementById('welcome').classList.remove('fade');
+  document.getElementById('app').style.visibility = 'hidden';
+  S = { coll:ROOT, label:'All bookmarks', navId:'n-root', sort:'-created', sortId:'s-new', page:0, total:1, count:0, search:'', tag:'' };
+  document.getElementById('qi').value = '';
+  document.querySelectorAll('.ni[id^="n-"]').forEach(el => el.classList.remove('on'));
+  document.getElementById('n-root')?.classList.add('on');
+}
+
+// ── Collection tree ───────────────────────────────────
+function buildTree(allColls) {
+  function kids(pid) { return allColls.filter(c => c.parent?.$id === pid).sort((a,b) => (a.sort||0)-(b.sort||0)); }
+  function isDesc(tid, aid) {
+    if (tid === aid) return true;
+    const c = allColls.find(x => x._id === tid);
+    return c?.parent ? isDesc(c.parent.$id, aid) : false;
+  }
+  function node(c, depth=0) {
+    const nid = 'n-' + c._id;
+    collMap[c._id] = nid;
+    const children = kids(c._id);
+    const open = isDesc(S.coll, c._id);
+    const dot = c.color ? `<span class="ndot" style="background:${c.color}"></span>`
+      : `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>`;
+    const chev = children.length
+      ? `<span class="chev${open?' open':''}" id="ch-${c._id}" onclick="event.stopPropagation();toggle(${c._id})"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></span>` : '';
+    let h = `<div class="ni${depth?' child':''}${S.coll===c._id?' on':''}" id="${nid}" onclick="setColl(${c._id},'${esc(c.title)}','${nid}')">
+      ${dot}<span class="nl">${esc(c.title)}</span>${chev}
+      <span class="nc" id="cnt-${c._id}">${c.count!=null?c.count.toLocaleString():''}</span>
+    </div>`;
+    if (children.length) {
+      h += `<div class="cg${open?' open':''}" id="cg-${c._id}">`;
+      children.forEach(k => { h += node(k, depth+1); });
+      h += `</div>`;
+    }
+    return h;
+  }
+  const top = kids(ROOT);
+  document.getElementById('coll-tree').innerHTML =
+    `<div class="sh">Sub-collections</div>` + top.map(c => node(c)).join('');
+  if (collMap[S.coll]) {
+    document.querySelectorAll('.ni[id^="n-"]').forEach(el => el.classList.remove('on'));
+    document.getElementById(collMap[S.coll])?.classList.add('on');
+    S.navId = collMap[S.coll];
+  }
+}
+
+function toggle(id) {
+  document.getElementById('cg-'+id)?.classList.toggle('open');
+  document.getElementById('ch-'+id)?.classList.toggle('open');
+}
+
+// ── Tag strip ─────────────────────────────────────────
+function renderTagStrip() {
+  const strip = document.getElementById('tagstrip');
+  const top25 = allTags.slice(0, 25);
+  if (!top25.length) { strip.innerHTML = '<span class="tgempty">No tags</span>'; return; }
+  strip.innerHTML = top25.map(t =>
+    `<span class="tag${S.tag===t._id?' on':''}" onclick="clickTag('${esc(t._id)}')">${esc(t._id)}</span>`
+  ).join('');
+}
+
+// ── Fetch ─────────────────────────────────────────────
+async function fetchPage() {
+  showLoader();
+  try {
+    const params = { sort: S.sort, perpage: PER, page: S.page };
+    const parts = [];
+    if (S.search) parts.push(S.search);
+    if (S.tag)    parts.push('#' + S.tag);
+    if (parts.length) params.search = parts.join(' ');
+
+    const data = await rd('/raindrops/' + S.coll, params);
+
+    // Check if collection is not public
+    if (data.result && data.count === 0 && !S.search && !S.tag) {
+      document.getElementById('banner').style.display = 'block';
+    } else {
+      document.getElementById('banner').style.display = 'none';
+    }
+
+    S.count = data.count || 0;
+    S.total = Math.ceil(S.count / PER) || 1;
+    render(data.items || []);
+  } catch(e) { showErr(e.message); }
+}
+
+// ── Render ────────────────────────────────────────────
+function render(items) {
+  renderFilterBar();
+  // Re-sync tag strip active state
+  document.querySelectorAll('.tag').forEach(el => {
+    el.classList.toggle('on', el.textContent.trim() === S.tag);
+  });
+
+  const area = document.getElementById('area');
+  if (!items.length) {
+    area.innerHTML = `<div class="list"><div class="empty">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+      <div>No results</div>
+      <div style="font-size:12px;margin-top:2px">Try different search terms or clear your filters</div>
+    </div></div>`;
+  } else {
+    area.innerHTML = `<div class="list">${items.map(itemHTML).join('')}</div>`;
+  }
+
+  renderPag();
+
+  const parts = [];
+  if (S.label !== 'All bookmarks') parts.push(S.label);
+  parts.push(`${S.count.toLocaleString()} items`);
+  if (S.tag)    parts.push(`#${S.tag}`);
+  if (S.search) parts.push(`"${S.search}"`);
+  parts.push(`page ${S.page+1} of ${S.total}`);
+  document.getElementById('sb').textContent = parts.join(' · ');
+}
+
+function itemHTML(r) {
+  const cover = (r.cover||'').startsWith('http') ? r.cover : '';
+  const thumb = cover
+    ? `<img src="${esc(cover)}" alt="" loading="lazy" onerror="this.style.display='none'">`
+    : emoji(r.domain||'');
+  const date = r.created
+    ? new Date(r.created).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})
+    : '';
+  const tags = (r.tags||[]).slice(0,10).map(t =>
+    `<span class="itag${S.tag===t?' on':''}" onclick="clickTag('${esc(t)}')">#${esc(t)}</span>`
+  ).join('');
+  const safe = esc(r.link||'');
+  return `<div class="item">
+    <div class="ithumb">${thumb}</div>
+    <div class="ibody">
+      <a class="ititle" href="${safe}" target="_blank" rel="noopener">${esc(r.title||r.link||'')}</a>
+      <div class="imeta">
+        ${r.domain?`<span>${esc(r.domain)}</span>`:''}
+        ${r.domain&&date?'<span class="isep">·</span>':''}
+        ${date?`<span>${date}</span>`:''}
+      </div>
+      ${tags?`<div class="itags">${tags}</div>`:''}
+    </div>
+    <div class="iact">
+      <button class="cbtn" onclick="copy('${safe}')">Copy</button>
+    </div>
+  </div>`;
+}
+
+function renderFilterBar() {
+  const bar = document.getElementById('fbar');
+  const has = S.search || S.tag || S.coll !== ROOT;
+  if (!has) { bar.classList.add('hidden'); return; }
+  bar.classList.remove('hidden');
+  let h = '';
+  if (S.coll !== ROOT) h += `<span class="chip">${esc(S.label)}<span class="x" onclick="setColl(${ROOT},'All bookmarks','n-root')">✕</span></span>`;
+  if (S.search)        h += `<span class="chip">"${esc(S.search)}"<span class="x" onclick="clearSearch()">✕</span></span>`;
+  if (S.tag)           h += `<span class="chip">#${esc(S.tag)}<span class="x" onclick="clearTag()">✕</span></span>`;
+  if ([S.search,S.tag,S.coll!==ROOT].filter(Boolean).length > 1) h += `<button class="clr" onclick="clearAll()">Clear all</button>`;
+  bar.innerHTML = h;
+}
+
+function renderPag() {
+  const pag = document.getElementById('pag');
+  if (S.total <= 1) { pag.style.display='none'; return; }
+  pag.style.display = 'flex';
+  const c=S.page, t=S.total;
+  let h = `<button class="pb" onclick="goPage(${c-1})" ${c===0?'disabled':''}>← Prev</button>`;
+  let s=Math.max(0,c-2), e=Math.min(t-1,s+4);
+  if(e-s<4) s=Math.max(0,e-4);
+  if(s>0) h+=`<button class="pb" onclick="goPage(0)">1</button>${s>1?'<span style="color:var(--muted);padding:0 2px">…</span>':''}`;
+  for(let i=s;i<=e;i++) h+=`<button class="pb${i===c?' on':''}" onclick="goPage(${i})">${i+1}</button>`;
+  if(e<t-1) h+=`${e<t-2?'<span style="color:var(--muted);padding:0 2px">…</span>':''}<button class="pb" onclick="goPage(${t-1})">${t}</button>`;
+  h+=`<button class="pb" onclick="goPage(${c+1})" ${c>=t-1?'disabled':''}>Next →</button>`;
+  h+=`<span class="pi">Page ${c+1} of ${t} · ${S.count.toLocaleString()} items</span>`;
+  pag.innerHTML = h;
+}
+
+// ── Actions ───────────────────────────────────────────
+function setColl(id, label, navId) {
+  document.querySelectorAll('.ni[id^="n-"]').forEach(el => el.classList.remove('on'));
+  const nid = navId || collMap[id] || 'n-'+id;
+  document.getElementById(nid)?.classList.add('on');
+  Object.assign(S, { coll:id, label, navId:nid, page:0, tag:'' });
+  fetchPage();
+}
+
+function setSort(sort, sortId) {
+  document.querySelectorAll('.ni[id^="s-"]').forEach(el => el.classList.remove('on'));
+  document.getElementById(sortId)?.classList.add('on');
+  Object.assign(S, { sort, sortId, page:0 });
+  fetchPage();
+}
+
+function clickTag(t)   { S.tag = S.tag===t?'':t; S.page=0; fetchPage(); }
+function clearTag()    { S.tag=''; S.page=0; fetchPage(); }
+function clearSearch() { S.search=''; S.page=0; document.getElementById('qi').value=''; fetchPage(); }
+function clearAll()    { S.search=''; S.tag=''; S.page=0; document.getElementById('qi').value=''; fetchPage(); }
+function goPage(p)     { if(p<0||p>=S.total)return; S.page=p; fetchPage(); document.getElementById('area').scrollTop=0; }
+
+let st;
+document.getElementById('qi').addEventListener('input', e => {
+  clearTimeout(st);
+  st = setTimeout(() => { S.search=e.target.value.trim(); S.page=0; fetchPage(); }, 400);
+});
+
+function copy(url) { navigator.clipboard.writeText(url).then(() => toast('Copied!')); }
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 1600);
+}
+
+// ── Helpers ───────────────────────────────────────────
+function emoji(d) {
+  if(d.includes('github'))  return '🐙';
+  if(d.includes('youtube')||d.includes('youtu.be')) return '▶️';
+  if(d.includes('substack')) return '📝';
+  if(d.includes('wikipedia')) return '📖';
+  if(d.includes('twitter')||d.includes('x.com')) return '𝕏';
+  if(d.includes('.gov'))    return '🏛️';
+  if(d.includes('pubmed')||d.includes('nature.com')||d.includes('bmj')) return '🔬';
+  return '🔗';
+}
+function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+function showLoader(){ document.getElementById('area').innerHTML='<div class="list"><div class="ld"><div class="bigspin"></div><div>Loading…</div></div></div>'; document.getElementById('pag').style.display='none'; }
+function showErr(msg){ document.getElementById('area').innerHTML=`<div class="list"><div class="empty"><div>Could not load</div><div style="font-size:12px;margin-top:4px">${esc(msg)}</div><button onclick="fetchPage()" style="margin-top:10px;font-size:12px;padding:5px 12px;border:1px solid var(--bd);border-radius:var(--r);background:var(--bg);color:var(--dim);cursor:pointer;font-family:Inter,sans-serif">Retry</button></div></div>`; }
+
+boot();
+</script>
+</body>
+</html>
